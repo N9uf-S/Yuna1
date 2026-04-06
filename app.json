@@ -1,0 +1,33 @@
+{
+  "name": "𝚈𝚄𝙽𝙰",
+  "description": "WhatsApp multi-device bot (Node.js/Baileys)",
+  "repository": "https://github.com/N9uf_S/𝚈𝚄𝙽𝙰",
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "baileys",
+    "node"
+  ],
+  "env": {
+    "NODE_ENV": {
+      "description": "Environment",
+      "value": "production"
+    },
+    "TZ": {
+      "description": "Timezone",
+      "value": "Africa/Abidjan",
+      "required": false
+    }
+  },
+  "formation": {
+    "worker": {
+      "quantity": 1
+    }
+  },
+  "addons": [],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
