@@ -18,7 +18,7 @@ module.exports = async function (sock, chatId, message, city) {
 
     // ✅ Newsletter (transfert)
     const newsletterJid = '120363403933773291@newsletter';
-    const newsletterName = '𝐈𝐍𝐅𝐈𝐍𝐈𝐗•𝐌𝐃';
+    const newsletterName = '𝚈𝚄𝙽𝙰';
 
     // ✅ Réaction
     try {
@@ -30,7 +30,7 @@ module.exports = async function (sock, chatId, message, city) {
     if (!cityName) {
       return await sock.sendMessage(
         chatId,
-        { text: "❌ Exemple : .meteo abidjan / paris / dakar" },
+        { text: "❌ Exemple : .meteo abidjan / paris / tokyo" },
         { quoted: message }
       );
     }
