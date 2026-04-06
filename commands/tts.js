@@ -8,7 +8,7 @@ async function ttsCommand(sock, chatId, text, message, language = 'fr') {
     if (!text) {
         const msg = `
 ╭────❏ 𝚈𝚄𝙽𝙰
-│ 🌟 *²⁰²⁶ .tts!* 🎤
+│ .𖥔 .tts!* 🎤
 │ \`Erreur\` : Texte manquant ❌
 │ Veuillez fournir un texte à convertir.
 │ ➥ Exemple :
