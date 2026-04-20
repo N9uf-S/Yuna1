@@ -45,232 +45,112 @@ async function helpCommand(sock, chatId, message, channelLink) {
     const ram = formatBytes(process.memoryUsage()?.rss || 0);
     const uptime = formatUptime(process.uptime());
 
-    const helpMessage = `‎*╭━━━【💠𝚈𝚄𝙽𝙰 】━━━┈⊷*
-‎*┃.𖥔╭──────────────────*
-‎*┃.𖥔│ 👤 𝚄𝚂𝙴𝚁 :❯ ${userName}*
-‎*┃.𖥔│ ${mode === 'PRIVATE' ? '🔒' : '🌐'} 𝙼𝙾𝙳𝙴 :❯ ${mode}*
-‎*┃.𖥔│ ⚜️ 𝙿𝚁𝙴𝙵𝙸𝚇 :❯ ${prefix}*
-‎*┃.𖥔│ 🧩 𝚅𝙴𝚁𝚂𝙸𝙾𝙽 :❯ ${settings.version || '3.0.7'}*
-‎*┃.𖥔│ 💾 𝚁𝙰𝙼 :❯ ${ram}*
-‎*┃.𖥔│ ⏳ 𝚄𝙿𝚃𝙸𝙼𝙴 :❯ ${uptime}*
-‎*┃.𖥔╰──────────────────*
-‎*╰━━━━━━━━━━━━━━━┈⊷*
+    // Dynamic DATE & TIME
+    const now = new Date();
+    const dateFormatted = now.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const timeFormatted = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).replace(':', 'h') + 's';
 
-🗃️  \`【 𝙼𝙴𝙽𝚄 𝙶𝙴𝙽𝙴𝚁𝙰𝙻 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}help*
-*┋ ➥ ${prefix}menu*
-*┋ ➥ ${prefix}ping*
-*┋ ➥ ${prefix}alive*
-*┋ ➥ ${prefix}tts*
-*┋ ➥ ${prefix}owner*
-*┋ ➥ ${prefix}joke*
-*┋ ➥ ${prefix}quote*
-*┋ ➥ ${prefix}fact*
-*┋ ➥ ${prefix}meteo*
-*┋ ➥ ${prefix}nouvelle*
-*┋ ➥ ${prefix}attp*
-*┋ ➥ ${prefix}lyrics*
-*┋ ➥ ${prefix}8ball*
-*┋ ➥ ${prefix}groupinfo*
-*┋ ➥ ${prefix}staff*
-*┋ ➥ ${prefix}admins*
-*┋ ➥ ${prefix}vv*
-*┋ ➥ ${prefix}trt*
-*┋ ➥ ${prefix}ss*
-*┋ ➥ ${prefix}jid*
-*┋ ➥ ${prefix}url*
-╰─────────────────────⊷
+    // Count total commands
+    const commandCount = 101;
 
-🪪  \`【 𝙰𝙳𝙼𝙸𝙽 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}ban*
-*┋ ➥ ${prefix}promote*
-*┋ ➥ ${prefix}demote*
-*┋ ➥ ${prefix}close*
-*┋ ➥ ${prefix}open*
-*┋ ➥ ${prefix}delete*
-*┋ ➥ ${prefix}del*
-*┋ ➥ ${prefix}kick @user*
-*┋ ➥ ${prefix}warnings @user*
-*┋ ➥ ${prefix}warn @user*
-*┋ ➥ ${prefix}antilink*
-*┋ ➥ ${prefix}antibadword*
-*┋ ➥ ${prefix}clear*
-*┋ ➥ ${prefix}tag <message>*
-*┋ ➥ ${prefix}tagall*
-*┋ ➥ ${prefix}tagnotadmin*
-*┋ ➥ ${prefix}hidetag*
-*┋ ➥ ${prefix}chatbot*
-*┋ ➥ ${prefix}resetlink*
-*┋ ➥ ${prefix}antitag*
-*┋ ➥ ${prefix}welcome*
-*┋ ➥ ${prefix}goodbyof*
-*┋ ➥ ${prefix}setgdesc*
-*┋ ➥ ${prefix}setgname*
-*┋ ➥ ${prefix}setgpp*
-╰─────────────────────⊷
+    // Get owner from settings
+    const ownerName = (settings?.owner ?? settings?.OWNER ?? 'N9uf_S').toString();
+    const channelLinkDisplay = channelLink || 'https://whatsapp.com/channel/0029VbD9z1YJf05TqVGLNo3c';
 
-🔐  \`【 𝙾𝚆𝙽𝙴𝚁 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}mode*
-*┋ ➥ ${prefix}clearsession*
-*┋ ➥ ${prefix}antidelete*
-*┋ ➥ ${prefix}cleartmp*
-*┋ ➥ ${prefix}update*
-*┋ ➥ ${prefix}settings*
-*┋ ➥ ${prefix}setpp*
-*┋ ➥ ${prefix}autoreact*
-*┋ ➥ ${prefix}autostatus*
-*┋ ➥ ${prefix}autostatus react*
-*┋ ➥ ${prefix}autotyping*
-*┋ ➥ ${prefix}autoread*
-*┋ ➥ ${prefix}anticall*
-*┋ ➥ ${prefix}pmblocker*
-*┋ ➥ ${prefix}pmblocker setmsg*
-*┋ ➥ ${prefix}setmention*
-*┋ ➥ ${prefix}mention*
-╰─────────────────────⊷
+    const helpMessage = `╔═〔 *${ownerName} BOT MENU* 〕
+║ ✦ *YUNA Bot*
+║ ❐ *Owner* ${ownerName}   ❐ *Préfixe* ${prefix}
+║ ❐ *Mode* ${mode.toLowerCase()}   ❐ *Commandes* ${commandCount}
+║ ❐ *Uptime* ${uptime}   ❐ *Vitesse* ${process.uptime().toFixed(0)}ms
+║ ❐ *Date* ${dateFormatted}   ❐ *Heure* ${timeFormatted}
+║ ❐ *Librairie* Baileys ^6.6.0
+║ 
+║ ┈┈┈┈┈┈┈┈┈┈✧
+║ ✦ *GÉNÉRAL*
+║ ❐ ${prefix}menu           * ouvrir le menu
+║ ❐ ${prefix}ping           * tester la latence
+║ ❐ ${prefix}alive          * voir le statut du bot
+║ ❐ ${prefix}infos          * voir les infos
+║ ❐ ${prefix}owner          * voir le propriétaire
+║ ❐ ${prefix}fact           * fait aléatoire
+║ ❐ ${prefix}jid            * voir les identifiants
+║ 
+║ ┈┈┈┈┈┈┈┈┈┈✧
+║ 🛡️ *GROUPE*
+║ ❐ ${prefix}promote        * promouvoir
+║ ❐ ${prefix}demote         * rétrograder
+║ ❐ ${prefix}kick           * retirer
+║ ❐ ${prefix}ban            * bannir et expulser
+║ ❐ ${prefix}unban          * retirer le ban
+║ ❐ ${prefix}admins         * voir les admins
+║ ❐ ${prefix}tagall         * mentionner tout le monde
+║ ❐ ${prefix}tag            * annoncer avec mention
+║ ❐ ${prefix}hidetag        * mention discrète
+║ ❐ ${prefix}warn           * avertir
+║ ❐ ${prefix}warns          * voir les warns
+║ ❐ ${prefix}clearwarns     * effacer les warns
+║ ❐ ${prefix}antilink       * bloquer les liens
+║ ❐ ${prefix}antimarabout   * filtrer les marabouts
+║ ❐ ${prefix}antibadwords   * filtrer les insultes
+║ ❐ ${prefix}welcome        * message d'arrivée
+║ ❐ ${prefix}goodbye        * message de départ
+║ ❐ ${prefix}mute           * fermer le groupe
+║ ❐ ${prefix}unmute         * rouvrir le groupe
+║ ❐ ${prefix}delete         * supprimer un message
+║ 
+║ ┈┈┈┈┈┈┈┈┈┈✧
+║ ⚙️ *UTILITAIRES*
+║ ❐ ${prefix}sticker        * créer un sticker
+║ ❐ ${prefix}take           * renommer un sticker
+║ ❐ ${prefix}play           * audio YouTube
+║ ❐ ${prefix}meteo          * météo
+║ ❐ ${prefix}translate      * traduire du texte
+║ ❐ ${prefix}lyrics         * chercher des paroles
+║ ❐ ${prefix}url            * extraire les liens
+║ ❐ ${prefix}pinterest      * images Pinterest
+║ 
+║ ┈┈┈┈┈┈┈┈┈┈✧
+║ 🎉 *FUN*
+║ ❐ ${prefix}joke           * blague
+║ ❐ ${prefix}quote          * citation
+║ ❐ ${prefix}meme           * meme
+║ ❐ ${prefix}8ball          * réponse aléatoire
+║ ❐ ${prefix}truth          * question vérité
+║ ❐ ${prefix}dare           * défi aléatoire
+║ ❐ ${prefix}compliment     * compliment
+║ ❐ ${prefix}flirt          * phrase de flirt
+║ ❐ ${prefix}insult         * insulte légère
+║ ❐ ${prefix}ship           * compatibilité
+║ ❐ ${prefix}simp           * niveau simp
+║ ❐ ${prefix}stupid         * commande fun
+║ ❐ ${prefix}goodnight      * souhaiter bonne nuit
+║ ❐ ${prefix}roseday        * message rose
+║ ❐ ${prefix}shayari        * texte poétique
+║ 
+║ ┈┈┈┈┈┈┈┈┈┈✧
+║ 🎌 *ANIME & MANGA*
+║ ❐ ${prefix}anime          * recommandations
+║ ❐ ${prefix}anime quote    * citation anime
+║ 
+║ ┈┈┈┈┈┈┈┈┈┈✧
+║ 🛍️ *SERVICES*
+║ ❐ ${prefix}services       * voir tous les services
+║ ❐ ${prefix}services info <id>   * détails d'un service
+║ ❐ ${prefix}services commander <id> * commander un service
+║ ❐ ${prefix}services mescommandes * historique des commandes
+║ ❐ ${prefix}services profil * voir son profil client
+║ ❐ ${prefix}services categorie <nom> * filtrer par catégorie
+║ 
+║ ┈┈┈┈┈┈┈┈┈┈✧
+║ 🤖 *BOT*
+║ ❐ ${prefix}mode           * public ou private
+║ ❐ ${prefix}setprefix      * changer le préfixe
+╚════════════
+┈┈┈┈┈┈┈┈┈┈✧
+♛ *Owner* : ${ownerName}
+🎵 *Chaîne* : ${channelLinkDisplay}
 
-🖼️  \`【 𝙸𝙼𝙰𝙶𝙴𝚂 & 𝚂𝚃𝙸𝙲𝙺𝙴𝚁𝚂 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}blur*
-*┋ ➥ ${prefix}simage*
-*┋ ➥ ${prefix}sticker*
-*┋ ➥ ${prefix}removebg*
-*┋ ➥ ${prefix}remini*
-*┋ ➥ ${prefix}crop*
-*┋ ➥ ${prefix}tgstickera*
-*┋ ➥ ${prefix}meme*
-*┋ ➥ ${prefix}take*
-*┋ ➥ ${prefix}emojimix*
-*┋ ➥ ${prefix}igs*
-*┋ ➥ ${prefix}igsc*
-╰─────────────────────⊷
-
-👀  \`【 𝙿𝙸𝙴𝚂 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}pies*
-*┋ ➥ ${prefix}china*
-*┋ ➥ ${prefix}indonesia*
-*┋ ➥ ${prefix}japan*
-*┋ ➥ ${prefix}korea*
-*┋ ➥ ${prefix}hijab*
-╰─────────────────────⊷
-
-🎮  \`【 𝙹𝙴𝚄𝚇 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}tictactoe*
-*┋ ➥ ${prefix}hangman*
-*┋ ➥ ${prefix}guess*
-*┋ ➥ ${prefix}trivia*
-*┋ ➥ ${prefix}answer*
-*┋ ➥ ${prefix}truth*
-*┋ ➥ ${prefix}dare*
-╰─────────────────────⊷
-
-🤖  \`【 𝙸𝙰 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}gpt*
-*┋ ➥ ${prefix}gemini*
-*┋ ➥ ${prefix}imagine*
-*┋ ➥ ${prefix}flux*
-*┋ ➥ ${prefix}sora*
-╰─────────────────────⊷
-
-💯  \`【 𝙵𝚄𝙽 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}compliment*
-*┋ ➥ ${prefix}insult*
-*┋ ➥ ${prefix}flirt*
-*┋ ➥ ${prefix}shayari*
-*┋ ➥ ${prefix}goodnight*
-*┋ ➥ ${prefix}roseday*
-*┋ ➥ ${prefix}character*
-*┋ ➥ ${prefix}wasted*
-*┋ ➥ ${prefix}ship*
-*┋ ➥ ${prefix}simp*
-*┋ ➥ ${prefix}stupid*
-╰─────────────────────⊷
-
-🔤  \`【 𝚃𝙴𝚇𝚃𝙼𝙰𝙺𝙴𝚁 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}metallic*
-*┋ ➥ ${prefix}ice*
-*┋ ➥ ${prefix}snow*
-*┋ ➥ ${prefix}impressive*
-*┋ ➥ ${prefix}matrix*
-*┋ ➥ ${prefix}light*
-*┋ ➥ ${prefix}neon*
-*┋ ➥ ${prefix}devil*
-*┋ ➥ ${prefix}purple*
-*┋ ➥ ${prefix}thunder*
-*┋ ➥ ${prefix}leaves*
-*┋ ➥ ${prefix}1917*
-*┋ ➥ ${prefix}arena*
-*┋ ➥ ${prefix}hacker*
-*┋ ➥ ${prefix}sand*
-*┋ ➥ ${prefix}blackpink*
-*┋ ➥ ${prefix}glitch*
-*┋ ➥ ${prefix}fire*
-╰─────────────────────⊷
-
-📥  \`【 𝚃𝙴𝙻𝙴𝙲𝙷𝙰𝚁𝙶𝙴𝙼𝙴𝙽𝚃𝚂 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}play*
-*┋ ➥ ${prefix}song*
-*┋ ➥ ${prefix}spotify*
-*┋ ➥ ${prefix}instagram*
-*┋ ➥ ${prefix}facebook*
-*┋ ➥ ${prefix}tiktok*
-*┋ ➥ ${prefix}apk*
-*┋ ➥ ${prefix}pinterest*
-*┋ ➥ ${prefix}video*
-*┋ ➥ ${prefix}ytmp4*
-╰─────────────────────⊷
-
-🧩  \`【 𝙳𝙸𝚅𝙴𝚁𝚂 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}heart*
-*┋ ➥ ${prefix}horny*
-*┋ ➥ ${prefix}circle*
-*┋ ➥ ${prefix}lgbt*
-*┋ ➥ ${prefix}lolice*
-*┋ ➥ ${prefix}its-so-stupid*
-*┋ ➥ ${prefix}namecard*
-*┋ ➥ ${prefix}oogway*
-*┋ ➥ ${prefix}tweet*
-*┋ ➥ ${prefix}ytcomment*
-*┋ ➥ ${prefix}comrade*
-*┋ ➥ ${prefix}gay*
-*┋ ➥ ${prefix}glass*
-*┋ ➥ ${prefix}jail*
-*┋ ➥ ${prefix}passed*
-*┋ ➥ ${prefix}triggered*
-╰─────────────────────⊷
-
-📺  \`【 𝙰𝙽𝙸𝙼𝙴 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}nom*
-*┋ ➥ ${prefix}poke*
-*┋ ➥ ${prefix}cry*
-*┋ ➥ ${prefix}kiss*
-*┋ ➥ ${prefix}pat*
-*┋ ➥ ${prefix}hug*
-*┋ ➥ ${prefix}wink*
-*┋ ➥ ${prefix}facepalm*
-╰─────────────────────⊷
-
-💻  \`【 𝙶𝙸𝚃𝙷𝚄𝙱 】\`
-╭─────────────────────⊷
-*┋ ➥ ${prefix}git*
-*┋ ➥ ${prefix}github*
-*┋ ➥ ${prefix}sc*
-*┋ ➥ ${prefix}script*
-*┋ ➥ ${prefix}repo*
-╰─────────────────────⊷
-
-> 𝙿𝚘𝚠𝚎𝚛𝚎𝚍 𝚋𝚢 𝙽𝟿𝚞𝚏_𝚂`;
+> 𝙽𝟿𝚞𝚏_𝚂 𝚋𝚢 𝚈𝚄𝙽𝙰`;
 
     try {
         const imgPath = path.join(__dirname, '..', 'assets', 'bot_image.jpg');

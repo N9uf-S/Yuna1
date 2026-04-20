@@ -1,0 +1,48 @@
+{
+  "services": [
+    {
+      "id": 1,
+      "name": "Création de logo",
+      "price": 5000,
+      "description": "Design professionnel de logo pour votre entreprise",
+      "category": "design"
+    },
+    {
+      "id": 2,
+      "name": "Gestion réseaux sociaux",
+      "price": 15000,
+      "description": "Gestion complète de vos comptes sociaux pendant 1 mois",
+      "category": "marketing"
+    },
+    {
+      "id": 3,
+      "name": "Développement site web",
+      "price": 50000,
+      "description": "Création d'un site web vitrine professionnel",
+      "category": "development"
+    },
+    {
+      "id": 4,
+      "name": "Montage vidéo",
+      "price": 10000,
+      "description": "Montage professionnel de vidéos (jusqu'à 5 min)",
+      "category": "video"
+    },
+    {
+      "id": 5,
+      "name": "Rédaction de contenu",
+      "price": 7500,
+      "description": "Rédaction d'articles optimisés SEO (500 mots)",
+      "category": "redaction"
+    },
+    {
+      "id": 6,
+      "name": "Consulting business",
+      "price": 20000,
+      "description": "Session de consulting d'1 heure pour votre projet",
+      "category": "consulting"
+    }
+  ],
+  "orders": [],
+  "clients": {}
+}
